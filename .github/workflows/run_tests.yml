@@ -1,0 +1,32 @@
+name: Build notebook gallery documentation using sphinx
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ main  ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_docs:
+    name: Build documentation (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: "ubuntu-latest"
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install mamba
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: environment.yaml
+          environment-name: doc_builder
+          extra-specs: python=3.8
+
+      - name: Build docs
+        working-directory: ./docs
+        run: |
+          make html
