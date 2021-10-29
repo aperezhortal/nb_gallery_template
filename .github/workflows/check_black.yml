@@ -5,9 +5,11 @@ name: Check Black compliance
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ ]
+#    branches: [ main ]
+    branches-ignore:
+      - '**'
   pull_request:
-    branches: [ ]
+    branches: [ main ]
 
 jobs:
   build:
