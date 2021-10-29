@@ -36,3 +36,12 @@ jobs:
         working-directory: ./docs
         run: |
           make html
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # Note: The GITHUB_TOKEN is NOT a personal access token.
+          # This token is automatically created by the GitHub Actions runner to authenticate in your workflow.args.
+          # That is, GITHUB_TOKEN is like an internal variable in the GH Action runner.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build
