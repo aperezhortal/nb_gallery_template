@@ -27,8 +27,10 @@ jobs:
           environment-name: doc_builder
           extra-specs: python=3.8
 
-      - name: Install extra pip dependencies
-        run: python -m pip install -r extra_pip_deps.txt
+      - name: Install extra dependencies
+        run: |
+          sudo apt-get install pandoc
+          python -m pip install -r extra_pip_deps.txt
 
       - name: Build docs
         working-directory: ./docs
