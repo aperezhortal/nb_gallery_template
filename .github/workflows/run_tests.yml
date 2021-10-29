@@ -44,4 +44,4 @@ jobs:
           # This token is automatically created by the GitHub Actions runner to authenticate in your workflow.args.
           # That is, GITHUB_TOKEN is like an internal variable in the GH Action runner.
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/_build
+          publish_dir: ./docs/_build/html
