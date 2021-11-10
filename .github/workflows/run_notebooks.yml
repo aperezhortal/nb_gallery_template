@@ -1,0 +1,45 @@
+name: Execute jupyter notebooks
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  run_notebooks:
+    name: Execute jupyter notebooks
+    runs-on: "ubuntu-latest"
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install mamba and create environment
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: environment.yml
+          environment-name: doc_builder
+          extra-specs: python=3.8
+
+      - name: Execute notebooks
+        working-directory: ./docs
+        run: |
+          jupyter nbconvert --to notebook --inplace --execute docs/notebooks/*.ipynb
+
+      - name: Commit notebooks
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          COMMIT_MSG=$(git rev-parse --short HEAD)
+          git commit -m $COMMIT_MSG -a
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: rendered
