@@ -27,9 +27,9 @@ jobs:
           extra-specs: python=3.8
 
       - name: Execute notebooks
-        working-directory: ./docs
+        working-directory: ./docs/notebooks
         run: |
-          jupyter nbconvert --to notebook --inplace --execute docs/notebooks/*.ipynb
+          jupyter nbconvert --to notebook --inplace --execute ./*.ipynb
 
       - name: Commit notebooks
         run: |
