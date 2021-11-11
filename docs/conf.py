@@ -54,14 +54,12 @@ for _path in notebooks_paths_in_subdirs:
         os.path.relpath(_path, GENERATED_DOCS_DIR)
     )
 
-# Sort notebooks alphabetically.
+# Sort notebooks alphabetically inside each subfolder.
 for folder, noteboooks in notebooks_by_folder.items():
     notebooks_by_folder[folder] = sorted(noteboooks)
 
 # Sort subfolders alphabetically (subfolder, [list of notebooks paths])
 notebooks_by_folder = sorted(notebooks_by_folder.items())
-
-print(notebooks_by_folder)
 
 env = Environment(
     loader=FileSystemLoader(searchpath="templates"),
