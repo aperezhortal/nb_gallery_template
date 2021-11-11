@@ -66,6 +66,7 @@ env = Environment(
     trim_blocks=True,
     lstrip_blocks=True,
 )
+os.makedirs(GENERATED_DOCS_DIR, exist_ok=True)
 
 template = env.get_template("gallery_index.rst.jinja2")
 template.stream(notebooks_by_folder=notebooks_by_folder).dump(
@@ -73,7 +74,7 @@ template.stream(notebooks_by_folder=notebooks_by_folder).dump(
 )
 
 template = env.get_template("sub_gallery.rst.jinja2")
-os.makedirs(GENERATED_DOCS_DIR, exist_ok=True)
+
 for subfolder, notebooks in notebooks_by_folder:
     if subfolder == ".":
         continue
