@@ -5,9 +5,9 @@ Welcome to nb_gallery_template's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   notebooks/Example1.ipynb
-   notebooks/Example2.ipynb
-
+   {% for notebook in notebooks_paths -%}
+        {{notebook}}
+   {% endfor %}
 
 
 Indices and tables

@@ -1,13 +1,12 @@
+import os
+from pathlib import Path
+import glob
+
 # -- Path setup --------------------------------------------------------------
+from jinja2 import Environment, FileSystemLoader
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
-
+DOCS_FOLDER = Path(__file__).parent
+NOTEBOOKS_FOLDER = DOCS_FOLDER / "notebooks"
 
 # -- Project information -----------------------------------------------------
 
@@ -29,3 +28,17 @@ exclude_patterns = ["_build", "**.ipynb_checkpoints"]
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
+
+# -- Generate the new index.html using jinja templates -----------------------
+
+notebooks_paths = sorted(
+    [
+        os.path.relpath(_path, DOCS_FOLDER)
+        for _path in glob.glob(str(NOTEBOOKS_FOLDER / "*.ipynb"))
+    ]
+)
+
+env = Environment(loader=FileSystemLoader(searchpath="templates"))
+
+template = env.get_template("index.rst.jinja2")
+template.stream(notebooks_paths=notebooks_paths).dump("index.rst")
