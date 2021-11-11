@@ -5,9 +5,7 @@ Welcome to nb_gallery_template's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   notebooks/Example1.ipynb
-   notebooks/Example2.ipynb
-
+   _generated/gallery_index
 
 
 Indices and tables
@@ -16,3 +14,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+

@@ -6,5 +6,6 @@ build
 MANIFEST
 *.egg-info
 
-/docs/generated
 /docs/_build
+/docs/_generated/
+/docs/notebooks/

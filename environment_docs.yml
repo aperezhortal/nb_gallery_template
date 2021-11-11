@@ -1,0 +1,17 @@
+name: doc_builder
+channels:
+- conda-forge
+- defaults
+dependencies:
+  - python=3.8
+  - jupyter
+  - nbconvert
+  - matplotlib
+  - numpy
+  - black
+  - jinja2
+  - pip:
+      - sphinx_gallery
+      - sphinx_rtd_theme
+      - sphinx_gallery
+      - nbsphinx

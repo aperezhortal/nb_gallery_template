@@ -1,0 +1,18 @@
+Examples gallery
+================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+{% for folder, notebooks in notebooks_by_folder %}
+   {% if folder != "." %}
+   {{folder}}
+   {% else %}
+   {% for nb in notebooks %}
+   {{nb}}
+   {% endfor %}
+   {% endif %}
+{% endfor %}
+
+
