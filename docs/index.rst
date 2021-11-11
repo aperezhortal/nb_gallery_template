@@ -5,9 +5,7 @@ Welcome to nb_gallery_template's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   {% for notebook in notebooks_paths -%}
-        {{notebook}}
-   {% endfor %}
+   _generated/gallery_index
 
 
 Indices and tables
@@ -16,3 +14,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+

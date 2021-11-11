@@ -1,0 +1,9 @@
+{{ title }}
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+
+   {% for notebook in notebooks %}
+   {{notebook}}
+   {% endfor %}
