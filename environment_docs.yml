@@ -6,8 +6,6 @@ dependencies:
   - python=3.8
   - pip
   - jinja2
-  - pip:
-      - sphinx_gallery
-      - sphinx_rtd_theme
-      - sphinx_gallery
-      - nbsphinx
+  - sphinx_gallery
+  - sphinx_rtd_theme
+  - nbsphinx
