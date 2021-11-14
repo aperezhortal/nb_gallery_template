@@ -7,9 +7,19 @@ from collections import defaultdict
 from pathlib import Path
 
 # -- General configuration ----------------------------------------------------
+
+# Documentation root folder
 DOCS_DIR = Path(__file__).parent
+
+# Directory with the executed notebooks
 NOTEBOOKS_DIR = DOCS_DIR / "notebooks"
+
+# Folder where the notebooks indexes (rst files) are saved.
 GENERATED_DOCS_DIR = DOCS_DIR / "_generated"
+
+# Auxiliary repository with the examples notebooks.
+# IMPORTANT: The notebooks should be placed in the <aux_project_root>/notebooks folder.
+# Only 1 level of subdirectories are supported!
 NOTEBOOKS_REPOSITORY = "https://github.com/aperezhortal/nb_gallery_notebooks.git"
 
 # -- Project information -----------------------------------------------------
@@ -25,17 +35,16 @@ extensions = [
 exclude_patterns = ["_build", "**.ipynb_checkpoints"]
 
 # -- Options for HTML output -------------------------------------------------
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
 html_theme = "sphinx_rtd_theme"
+
+# -- Other options -----------------------------------------------------------
+nbsphinx_execute = "never"  # Do not execute notebooks
 
 
 def pull_notebooks(work_dir):
-    """Pull the rendered notebooks from the Notebooks repository."""
+    """Pull the rendered notebooks from an auxiliary repository."""
 
-    # Default to the lastest branch, containing the lastest rendered notebooks.
+    # Default to the "latest" branch, containing the latest rendered notebooks.
     rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
 
     if rtd_version == "stable":
@@ -65,7 +74,8 @@ def generate_notebooks_rst():
     """
     from jinja2 import Environment, FileSystemLoader
 
-    # Discover notebooks
+    ##########################################################
+    # 1. Discover notebooks
     # IMPORTANT: Only 1 level of subdirectories are supported!
 
     # Store the notebooks paths in a dictionary (temporary).
@@ -85,11 +95,13 @@ def generate_notebooks_rst():
             os.path.relpath(_path, GENERATED_DOCS_DIR)
         )
 
-    # Sort notebooks alphabetically inside each subfolder.
+    ########################################################
+    # 2. Sort notebooks alphabetically inside each subfolder
     for folder, noteboooks in notebooks_by_folder.items():
         notebooks_by_folder[folder] = sorted(noteboooks)
 
-    # Sort subfolders alphabetically (subfolder, [list of notebooks paths])
+    ##########################################################################
+    # 3. Sort subfolders alphabetically (subfolder, [list of notebooks paths])
     notebooks_by_folder = sorted(notebooks_by_folder.items())
 
     env = Environment(
@@ -99,6 +111,8 @@ def generate_notebooks_rst():
     )
     os.makedirs(GENERATED_DOCS_DIR, exist_ok=True)
 
+    ################################################################
+    # 4. Generate the rst files for the notebooks documentation page
     template = env.get_template("gallery_index.rst.jinja2")
     template.stream(notebooks_by_folder=notebooks_by_folder).dump(
         str(GENERATED_DOCS_DIR / "gallery_index.rst")
@@ -118,7 +132,8 @@ def generate_notebooks_rst():
         )
 
 
-# Run auxiliary tasks inside a temp folder that is automatically cleaned.
+########################################################################
+# Run auxiliary tasks inside a temp folder that is automatically cleaned
 with tempfile.TemporaryDirectory() as _work_dir:
     pull_notebooks(_work_dir)
     generate_notebooks_rst()
