@@ -4,11 +4,7 @@ channels:
 - defaults
 dependencies:
   - python=3.8
-  - jupyter
-  - nbconvert
-  - matplotlib
-  - numpy
-  - black
+  - pip
   - jinja2
   - pip:
       - sphinx_gallery
