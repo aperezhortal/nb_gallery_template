@@ -35,6 +35,9 @@ jobs:
       - name: Clone linked repository
         uses: actions/checkout@v2
         with:
+          #> otherwise, the token used is the GITHUB_TOKEN,
+          # instead of your personal access token.
+          persist-credentials: false
           repository: ${{ env.LINKED_REPO }}
 
       - name: Create empty commit in linked repo
