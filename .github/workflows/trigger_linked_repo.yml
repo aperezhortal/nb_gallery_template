@@ -49,5 +49,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           repository: ${{ env.LINKED_REPO }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ LINKED_TOKEN }}
           branch: latest
