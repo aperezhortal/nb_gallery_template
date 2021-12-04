@@ -1,12 +1,17 @@
-name: Trigger notebook execution in the linked repo
-
 ########################################################################################
-# Naming convention
+# Workflow to trigger the notebooks execution in the auxiliary repository with
+# the example gallery.
+#
+# If the "main" branch triggered this event, then the nb execution is triggered in the
+# "main" branch, otherwise in the dev branch.
+#
+# Naming convention used in this workflow:
 #
 # "main repository": Project repository with the python package and the documentation.
 # "linked repository": Repository where the example gallery of jupyter notebooks is
 #                      stored.
 ########################################################################################
+name: Trigger notebook execution in the linked repo
 
 env:
   # URL for the external repository linked with the notebooks in this project.
@@ -73,7 +78,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git commit --allow-empty \
-            -m "Triggering nb execution from $GITHUB_SHA" \
+            -m "Triggering nb execution from ${GITHUB_SHA::8}" \
             -m "https://github.com/aperezhortal/nb_gallery_template/commit/$GITHUB_SHA"
 
       - name: Push the empty commit to trigger the workflow
