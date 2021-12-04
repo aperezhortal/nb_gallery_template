@@ -35,9 +35,8 @@ jobs:
       - name: Clone linked repository
         uses: actions/checkout@v2
         with:
-          #> otherwise, the token used is the GITHUB_TOKEN,
-          # instead of your personal access token.
-          persist-credentials: false
+          persist-credentials: false # Avoid using the GITHUB_TOKEN  instead of the personal access token
+          fetch-depth: 0 # Avoid errors pushing refs to the destination repository.
           repository: ${{ env.LINKED_REPO }}
 
       - name: Create empty commit in linked repo
