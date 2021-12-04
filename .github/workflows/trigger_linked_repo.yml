@@ -32,12 +32,41 @@ jobs:
         shell: bash -l {0}
 
     steps:
+      - name: Find the branch that trigger the event
+        id: get_dest_branch
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            event_branch=$(echo ${GITHUB_REF##*/})
+          elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            event_branch=$(echo $GITHUB_BASE_REF)
+          else
+            event_branch=unknown
+          fi
+          echo "::set-output name=event_branch::${event_branch}"
+
+          # We only push to latest or to dev.
+          if [[ "${event_branch}" == "main" ]]; then
+            echo "::set-output name=dest_branch::main"
+          else
+            echo "::set-output name=dest_branch::dev"
+          fi
+
+      - name: Print debug information
+        env:
+          DEST_BRANCH: ${{steps.get_dest_branch.outputs.dest_branch}}
+          EVENT_BRANCH: ${{steps.get_dest_branch.outputs.event_branch}}
+        run: |
+          echo "EVENT_BRANCH=${EVENT_BRANCH}"
+          echo "GITHUB_SHA=${GITHUB_SHA}"
+          echo "DEST_BRANCH=${DEST_BRANCH}"
+
       - name: Clone linked repository
         uses: actions/checkout@v2
         with:
           persist-credentials: false # Avoid using the GITHUB_TOKEN  instead of the personal access token
           fetch-depth: 0 # Avoid errors pushing refs to the destination repository.
           repository: ${{ env.LINKED_REPO }}
+          ref: ${{steps.get_dest_branch.outputs.dest_branch}}
 
       - name: Create empty commit in linked repo
         run: |
