@@ -81,4 +81,4 @@ jobs:
         with:
           repository: ${{ env.LINKED_REPO }}
           github_token: ${{ secrets.LINKED_TOKEN }}
-          branch: latest
+          branch: ${{steps.get_dest_branch.outputs.dest_branch}}
