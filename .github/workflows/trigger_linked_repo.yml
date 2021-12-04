@@ -11,7 +11,7 @@ name: Trigger notebook execution in the linked repo
 env:
   # URL for the external repository linked with the notebooks in this project.
   # This repository needs to be hosted un Github
-  LINKED_REPO: aperezhortal/nb_gallery_test_repo
+  LINKED_REPO: aperezhortal/nb_gallery_notebooks
 
 on:
   push:
