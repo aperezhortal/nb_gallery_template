@@ -36,17 +36,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ env.LINKED_REPO }}
-          path: ${{ env.LINKED_REPO }}
-
-      - name: Checkout main repository
-        uses: actions/checkout@v2
 
       - name: Create empty commit in linked repo
-        working-directory: ${{ env.LINKED_REPO }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit --allow-empty -m "Triggering nb execution from $GITHUB_SHA" \
+          git commit --allow-empty \
+            -m "Triggering nb execution from $GITHUB_SHA" \
             -m "https://github.com/aperezhortal/nb_gallery_template/commit/$GITHUB_SHA"
 
       - name: Push the empty commit to trigger the workflow
